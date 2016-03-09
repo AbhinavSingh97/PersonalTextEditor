@@ -23,6 +23,7 @@ public class MyTextEditor extends JFrame implements ActionListener
 	private Menu file = new Menu();
 	private Menu edit = new Menu();
 	private Menu find = new Menu();
+   private Menu goTo = new Menu();
 	//File 
 	private MenuItem openFile = new MenuItem(); 
 	private MenuItem saveFile = new MenuItem(); 
@@ -34,6 +35,7 @@ public class MyTextEditor extends JFrame implements ActionListener
 	private MenuItem cut = new MenuItem();
 	private MenuItem search = new MenuItem();
 	private MenuItem replace = new MenuItem();
+   //GoTo
 	private MenuItem goToLine = new MenuItem();
 
 
@@ -95,9 +97,11 @@ public class MyTextEditor extends JFrame implements ActionListener
 		menuBar.add(this.file);
 		menuBar.add(this.edit); 
 		menuBar.add(this.find);
+      menuBar.add(this.goTo);
 		file.setLabel("File");
 		find.setLabel("Find");
 		edit.setLabel("Edit");
+      goTo.setLabel("Goto");
 		//File option to open files in the text editor
 		openFile.setLabel("Open");
 		openFile.addActionListener(this);
@@ -134,8 +138,8 @@ public class MyTextEditor extends JFrame implements ActionListener
 
 		goToLine.setLabel("Go To");
 		goToLine.addActionListener(this);
-		goToLine.setShortcut(new MenuShortcut(KeyEvent.VK_I, false));
-		find.add(goToLine);
+		goToLine.setShortcut(new MenuShortcut(KeyEvent.VK_G, false));
+		goTo.add(goToLine);
 
 
 		//Edit opitions 
