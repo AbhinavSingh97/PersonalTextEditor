@@ -290,33 +290,15 @@ public class MyTextEditor extends JFrame implements ActionListener
       for (String line : textArea.getText().split("\\n")) 
       {
       	m = line.indexOf(wordToSearch);
-      	
       	if(m == -1)
       	{
       		total += line.length() + 1; 
       		continue;
       	}
       	
-         String t = "gods cats gods";
-         String l = t.replace("gods", "pizza");
-         System.out.println(l);
-
-
-
-      	/*
-      	while(true)
-      	{
-            m = line.indexOf(wordToSearch, m + 1);
-
-            if (m == -1)
-            {
-            	
-            	break;
-            }
-         
-      	}
-      	*/
-      	total += line.length() + 1;
+         String newLine = line.replaceAll(wordToSearch, wordToReplace);
+         textArea.replaceRange(newLine, total, total + line.length());
+      	total += newLine.length() + 1;
       }
 	}
 
