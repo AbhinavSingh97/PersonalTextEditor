@@ -68,7 +68,9 @@ public class MyTextEditor extends JFrame implements ActionListener
 		//scrollPane.getVerticalScrollBar().isVisible();
 
 		//textArea.add(scrollPane,BorderLayout.EAST);
+		//final LineNumberingTextArea lineNTA = new LineNumberingTextArea(textArea);
 		final LineNumberingTextArea lineNTA = new LineNumberingTextArea(textArea);
+
 		DocumentListener documentListen = new DocumentListener()
 		{
 			public void insertUpdate(DocumentEvent documentEvent)
@@ -95,7 +97,7 @@ public class MyTextEditor extends JFrame implements ActionListener
 		//scrollPane.setRowHeaderView(lineNTA);
 		scrollPane.setVisible(true);
 		getContentPane().add(scrollPane);
-		getContentPane().add(lineNTA,BorderLayout.WEST);
+		//getContentPane().add(lineNTA,BorderLayout.WEST);
 		//panel.add(lineNumber,BorderLayout.EAST);
 		//Numbers along the side
 
