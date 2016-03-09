@@ -17,10 +17,8 @@ public class MyTextEditor extends JFrame implements ActionListener
    
 
 	private JPanel panel = new JPanel(new BorderLayout());
-	private JTextArea textArea = new JTextArea(0,0);
-	private JScrollPane scrollPane = new JScrollPane(textArea, 
-		          JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+	private JTextArea textArea = new JTextArea();
+	private JScrollPane scrollPane;
 	private MenuBar menuBar = new MenuBar(); 
 	private Menu file = new Menu();
 	private Menu edit = new Menu();
@@ -47,10 +45,10 @@ public class MyTextEditor extends JFrame implements ActionListener
 
 	public MyTextEditor()
 	{
-
+		scrollPane = new JScrollPane(textArea);
      
 
-      panel.add(scrollPane);
+      //panel.add(scrollPane);
 		//Set the basis for the text editor
 		this.setSize(750,800);
 		this.setTitle("Zenith");
@@ -96,7 +94,7 @@ public class MyTextEditor extends JFrame implements ActionListener
 		//getContentPane().setLayout(new BorderLayout());
 		//scrollPane.setRowHeaderView(lineNTA);
 		scrollPane.setVisible(true);
-		getContentPane().add(textArea);
+		getContentPane().add(scrollPane);
 		getContentPane().add(lineNTA,BorderLayout.WEST);
 		//panel.add(lineNumber,BorderLayout.EAST);
 		//Numbers along the side
