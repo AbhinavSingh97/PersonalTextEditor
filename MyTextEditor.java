@@ -19,8 +19,8 @@ public class MyTextEditor extends JFrame implements ActionListener
 	private JPanel panel = new JPanel(new BorderLayout());
 	private JTextArea textArea = new JTextArea(0,0);
 	private JScrollPane scrollPane = new JScrollPane(textArea, 
-		          JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		          JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 	private MenuBar menuBar = new MenuBar(); 
 	private Menu file = new Menu();
 	private Menu edit = new Menu();
@@ -43,15 +43,14 @@ public class MyTextEditor extends JFrame implements ActionListener
 	private MenuItem goToLine = new MenuItem();
    //Help
    private MenuItem documentation = new MenuItem();
-
-
+   
 
 	public MyTextEditor()
 	{
 
      
 
-
+      panel.add(scrollPane);
 		//Set the basis for the text editor
 		this.setSize(750,800);
 		this.setTitle("Zenith");
@@ -63,8 +62,10 @@ public class MyTextEditor extends JFrame implements ActionListener
 		//scrollPane.setBounds(20, 30, 100, 40);
 		textArea.getCaret().setVisible(true);
 		scrollPane.setVisible(true);
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		//add(scrollPane, BorderLayout.CENTER);
+		
+		//scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		//scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		//scrollPane.getHorizontalScrollBar().isVisible();
 		//scrollPane.getVerticalScrollBar().isVisible();
 
