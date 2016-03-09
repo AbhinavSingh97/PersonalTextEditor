@@ -215,10 +215,12 @@ public class MyTextEditor extends JFrame implements ActionListener
         	 while(scan.hasNext())
         	 {
             	String temp = scan.next();
+                /*
             	if(temp == )
             	{
             		
             	}
+            	*/
          }
      	 }
      	 catch(IOException ex)
