@@ -9,6 +9,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
+import javax.swing.text.JTextComponent;
+import java.net.URI;
 
 public class MyTextEditor extends JFrame implements ActionListener
 {
@@ -20,6 +22,7 @@ public class MyTextEditor extends JFrame implements ActionListener
 	private Menu edit = new Menu();
 	private Menu find = new Menu();
    private Menu goTo = new Menu();
+   private Menu help = new Menu();
 	//File 
 	private MenuItem openFile = new MenuItem(); 
 	private MenuItem saveFile = new MenuItem(); 
@@ -27,12 +30,15 @@ public class MyTextEditor extends JFrame implements ActionListener
 	private MenuItem newFile = new MenuItem(); 
 	//Edit
 	//private MenuItem copy = new MenuItem(new DefaultEditorKit.CopyAction());
+   private MenuItem copy = new MenuItem();
 	private MenuItem paste = new MenuItem();
 	private MenuItem cut = new MenuItem();
 	private MenuItem search = new MenuItem();
 	private MenuItem replace = new MenuItem();
    //GoTo
 	private MenuItem goToLine = new MenuItem();
+   //Help
+   private MenuItem documentation = new MenuItem();
 
 
 
@@ -45,6 +51,7 @@ public class MyTextEditor extends JFrame implements ActionListener
 		textArea.setFont(new Font("Consolas", Font.BOLD, 14));
 		textArea.setForeground(Color.GREEN);
 		textArea.setBackground(Color.BLACK);
+      textArea.setCaretColor(Color.WHITE);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setVisible(true);
@@ -85,10 +92,13 @@ public class MyTextEditor extends JFrame implements ActionListener
 		menuBar.add(this.edit); 
 		menuBar.add(this.find);
       menuBar.add(this.goTo);
+      menuBar.add(this.help);
+
 		file.setLabel("File");
 		find.setLabel("Find");
 		edit.setLabel("Edit");
       goTo.setLabel("Goto");
+      help.setLabel("Help");
 		//File option to open files in the text editor
 		openFile.setLabel("Open");
 		openFile.addActionListener(this);
@@ -130,9 +140,25 @@ public class MyTextEditor extends JFrame implements ActionListener
 
 
 		//Edit opitions 
-		//copy.setLabel("Copy");
-		//copy.setMnemonic(KeyEvent.VK_C);
-		//edit.add(this.copy);
+		copy.setLabel("Copy");
+		copy.addActionListener(this);
+      copy.setShortcut(new MenuShortcut(KeyEvent.VK_C,false));
+      edit.add(copy);
+
+      paste.setLabel("Paste");
+      paste.addActionListener(this);
+      paste.setShortcut(new MenuShortcut(KeyEvent.VK_V,false));
+      edit.add(paste);
+
+      cut.setLabel("Cut");
+      cut.addActionListener(this);
+      cut.setShortcut(new MenuShortcut(KeyEvent.VK_X,false));
+      edit.add(cut);
+
+      //Help opition
+      documentation.setLabel("Documentation");
+      documentation.addActionListener(this);
+      help.add(documentation);
 
 
 	}
@@ -168,6 +194,22 @@ public class MyTextEditor extends JFrame implements ActionListener
 		{
 			goToLine();
 		}
+      else if(event.getSource() == this.copy)
+      {
+         copyArea();
+      }
+      else if(event.getSource() == this.paste)
+      {
+         pasteArea();
+      }
+      else if(event.getSource() == this.cut)
+      {
+         cutArea();
+      }
+      else if(event.getSource() == this.documentation)
+      {
+         loadJavaDocs();
+      }
 	}
 	public void openFile()
 	{
@@ -258,6 +300,7 @@ public class MyTextEditor extends JFrame implements ActionListener
 	}
 	public void search() 
 	{ 
+      ImageIcon icon = new ImageIcon(MyTextEditor.class.getResource("eriq.jpg"));
       String wordToSearch = JOptionPane.showInputDialog(null, "Word to search for:");
       Highlighter highlighter = textArea.getHighlighter();
       highlighter.removeAllHighlights();
@@ -338,9 +381,32 @@ public class MyTextEditor extends JFrame implements ActionListener
        	total += line.length() + 1;
 
        }
- 
-
 	}
+   public void copyArea()
+   {
+      textArea.copy();
+   }
+   public void pasteArea()
+   {
+      textArea.paste();
+   }
+   public void cutArea()
+   {
+      textArea.cut();
+   }
+   public void loadJavaDocs()
+   {
+      try
+      {
+         Desktop desktop = Desktop.getDesktop();
+         URI uRL = new URI("http://users.csc.calpoly.edu/~dtimokhi/");
+         desktop.browse(uRL);
+      }
+      catch(Exception ex)
+      {
+         ex.printStackTrace();
+      }
+   }
 
 	public static void main(String args[])
 	{
