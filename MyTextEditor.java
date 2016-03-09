@@ -94,10 +94,10 @@ public class MyTextEditor extends JFrame implements ActionListener
 		lineNTA.setEditable(false);
 		lineNTA.setVisible(true);
 		//getContentPane().setLayout(new BorderLayout());
-		//scrollPane.setRowHeaderView(lineNTA);
+		scrollPane.setRowHeaderView(lineNTA);
 		scrollPane.setVisible(true);
 		getContentPane().add(scrollPane);
-		//getContentPane().add(lineNTA,BorderLayout.WEST);
+		getContentPane().add(lineNTA,BorderLayout.WEST);
 		//panel.add(lineNumber,BorderLayout.EAST);
 		//Numbers along the side
 
