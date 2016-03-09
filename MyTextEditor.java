@@ -29,6 +29,8 @@ public class MyTextEditor extends JFrame implements ActionListener
 	private MenuItem paste = new MenuItem();
 	private MenuItem cut = new MenuItem();
 	private MenuItem search = new MenuItem();
+	private MenuItem replace = new MenuItem();
+
 
 	public MyTextEditor()
 	{
@@ -110,6 +112,11 @@ public class MyTextEditor extends JFrame implements ActionListener
 		search.setShortcut(new MenuShortcut(KeyEvent.VK_F, false));
 		find.add(search);
 
+		replace.setLabel("Replace");
+		replace.addActionListener(this);
+		replace.setShortcut(new MenuShortcut(KeyEvent.VK_H, false));
+		find.add(replace);
+
 		//Edit opitions 
 		//copy.setLabel("Copy");
 		//copy.setMnemonic(KeyEvent.VK_C);
@@ -140,6 +147,10 @@ public class MyTextEditor extends JFrame implements ActionListener
 		else if(event.getSource() == this.search)
 		{
 			search();
+		}
+		else if(event.getSource() == this.replace)
+		{
+			replace();
 		}
 	}
 	public void openFile()
@@ -243,6 +254,7 @@ public class MyTextEditor extends JFrame implements ActionListener
       	m = line.indexOf(wordToSearch);
       	if(m == -1)
       	{
+      		total += line.length() + 1;
       		continue;
       	}
       	try{
@@ -264,6 +276,46 @@ public class MyTextEditor extends JFrame implements ActionListener
             {
             }
       	}
+      	total += line.length() + 1;
+      }
+	}
+	public void replace()
+	{
+		String wordToSearch = JOptionPane.showInputDialog(null, "Word to replace:");
+		String wordToReplace = JOptionPane.showInputDialog(null, "Replacement word:");
+
+      int m;
+      int total = 0;
+      int wordLength = wordToSearch.length();
+      for (String line : textArea.getText().split("\\n")) 
+      {
+      	m = line.indexOf(wordToSearch);
+      	
+      	if(m == -1)
+      	{
+      		total += line.length() + 1; 
+      		continue;
+      	}
+      	
+         String t = "gods cats gods";
+         String l = t.replace("gods", "pizza");
+         System.out.println(l);
+
+
+
+      	/*
+      	while(true)
+      	{
+            m = line.indexOf(wordToSearch, m + 1);
+
+            if (m == -1)
+            {
+            	
+            	break;
+            }
+         
+      	}
+      	*/
       	total += line.length() + 1;
       }
 	}
