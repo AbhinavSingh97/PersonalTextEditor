@@ -30,6 +30,8 @@ public class MyTextEditor extends JFrame implements ActionListener
 	private MenuItem cut = new MenuItem();
 	private MenuItem search = new MenuItem();
 	private MenuItem replace = new MenuItem();
+	private MenuItem goToLine = new MenuItem();
+
 
 
 	public MyTextEditor()
@@ -117,6 +119,12 @@ public class MyTextEditor extends JFrame implements ActionListener
 		replace.setShortcut(new MenuShortcut(KeyEvent.VK_H, false));
 		find.add(replace);
 
+		goToLine.setLabel("Go To");
+		goToLine.addActionListener(this);
+		goToLine.setShortcut(new MenuShortcut(KeyEvent.VK_I, false));
+		find.add(goToLine);
+
+
 		//Edit opitions 
 		//copy.setLabel("Copy");
 		//copy.setMnemonic(KeyEvent.VK_C);
@@ -151,6 +159,10 @@ public class MyTextEditor extends JFrame implements ActionListener
 		else if(event.getSource() == this.replace)
 		{
 			replace();
+		}
+		else if(event.getSource() == this.goToLine)
+		{
+			goToLine();
 		}
 	}
 	public void openFile()
@@ -300,6 +312,30 @@ public class MyTextEditor extends JFrame implements ActionListener
          textArea.replaceRange(newLine, total, total + line.length());
       	total += newLine.length() + 1;
       }
+	}
+	public void goToLine()
+	{
+		 String lineToSearch = JOptionPane.showInputDialog(null, "Line Number: ");
+		 int total = 0;
+		 int lineNum = 0;
+       for (String line : textArea.getText().split("\\n"))
+       {
+       	lineNum +=1;
+       	String lineNumStr = lineNum + "";
+       	if (lineNumStr.compareTo(lineToSearch) == 0)
+       	{
+       		if( line == null)
+       		{
+       			textArea.setCaretPosition(total-2);
+       		}
+       		textArea.setCaretPosition(total);
+       		break;
+       	}
+       	total += line.length() + 1;
+
+       }
+ 
+
 	}
 
 	public static void main(String args[])
