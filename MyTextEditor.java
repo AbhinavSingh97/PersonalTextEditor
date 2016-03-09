@@ -59,13 +59,10 @@ public class MyTextEditor extends JFrame implements ActionListener
 		textArea.setFont(new Font("Consolas", Font.BOLD, 14));
 		textArea.setForeground(Color.GREEN);
 		textArea.setBackground(Color.BLACK);
-<<<<<<< HEAD
       textArea.setCaretColor(Color.WHITE);
-=======
 		//scrollPane.setBounds(20, 30, 100, 40);
 		textArea.getCaret().setVisible(true);
 		scrollPane.setVisible(true);
->>>>>>> 251f42888d9500d82bb6b8ab9e4198ed6e752842
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		//scrollPane.getHorizontalScrollBar().isVisible();
@@ -315,8 +312,7 @@ public class MyTextEditor extends JFrame implements ActionListener
 		}
 	}
 	public void search() 
-	{ 
-      ImageIcon icon = new ImageIcon(MyTextEditor.class.getResource("eriq.jpg"));
+	{
       String wordToSearch = JOptionPane.showInputDialog(null, "Word to search for:");
       Highlighter highlighter = textArea.getHighlighter();
       highlighter.removeAllHighlights();
