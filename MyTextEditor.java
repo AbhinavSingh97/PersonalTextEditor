@@ -14,7 +14,7 @@ import java.net.URI;
 
 public class MyTextEditor extends JFrame implements ActionListener
 {
-   
+   //
 
 	private JPanel panel = new JPanel(new BorderLayout());
 	private JTextArea textArea = new JTextArea();
