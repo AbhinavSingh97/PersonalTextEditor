@@ -19,6 +19,9 @@ public class MyTextEditor extends JFrame implements ActionListener
 	private JPanel panel = new JPanel(new BorderLayout());
 	private JTextArea textArea = new JTextArea();
 	private JScrollPane scrollPane;
+   private static final Color TA_BACKGROUND_CLR = Color.BLACK;
+   private static final Color TA_FOREGROUND_CLR = Color.GREEN;
+   private static final Color TA_CARET_CLR = Color.WHITE;
 	private MenuBar menuBar = new MenuBar(); 
 	private Menu file = new Menu();
 	private Menu edit = new Menu();
@@ -31,7 +34,6 @@ public class MyTextEditor extends JFrame implements ActionListener
 	private MenuItem closeFile = new MenuItem();
 	private MenuItem newFile = new MenuItem(); 
 	//Edit
-	//private MenuItem copy = new MenuItem(new DefaultEditorKit.CopyAction());
    private MenuItem copy = new MenuItem();
 	private MenuItem paste = new MenuItem();
 	private MenuItem cut = new MenuItem();
@@ -45,30 +47,16 @@ public class MyTextEditor extends JFrame implements ActionListener
 
 	public MyTextEditor()
 	{
-		scrollPane = new JScrollPane(textArea);
-     
-
-      //panel.add(scrollPane);
 		//Set the basis for the text editor
 		this.setSize(750,800);
 		this.setTitle("Zenith");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		textArea.setFont(new Font("Consolas", Font.BOLD, 14));
-		textArea.setForeground(Color.GREEN);
-		textArea.setBackground(Color.BLACK);
-      textArea.setCaretColor(Color.WHITE);
-		//scrollPane.setBounds(20, 30, 100, 40);
+		textArea.setForeground(TA_FOREGROUND_CLR);
+		textArea.setBackground(TA_BACKGROUND_CLR);
+      textArea.setCaretColor(TA_CARET_CLR);
 		textArea.getCaret().setVisible(true);
-		scrollPane.setVisible(true);
-		//add(scrollPane, BorderLayout.CENTER);
-		
-		//scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		//scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		//scrollPane.getHorizontalScrollBar().isVisible();
-		//scrollPane.getVerticalScrollBar().isVisible();
 
-		//textArea.add(scrollPane,BorderLayout.EAST);
-		//final LineNumberingTextArea lineNTA = new LineNumberingTextArea(textArea);
 		final LineNumberingTextArea lineNTA = new LineNumberingTextArea(textArea);
 
 		DocumentListener documentListen = new DocumentListener()
@@ -93,13 +81,11 @@ public class MyTextEditor extends JFrame implements ActionListener
 		lineNTA.setFont(new Font("Consolas", Font.BOLD, 13));
 		lineNTA.setEditable(false);
 		lineNTA.setVisible(true);
-		//getContentPane().setLayout(new BorderLayout());
+      textArea.add(lineNTA);
+      scrollPane = new JScrollPane(textArea);
 		scrollPane.setRowHeaderView(lineNTA);
 		scrollPane.setVisible(true);
 		getContentPane().add(scrollPane);
-		getContentPane().add(lineNTA,BorderLayout.WEST);
-		//panel.add(lineNumber,BorderLayout.EAST);
-		//Numbers along the side
 
 		setMenuBar(this.menuBar);
 		menuBar.add(this.file);
