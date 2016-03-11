@@ -10,13 +10,16 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
 import javax.swing.text.JTextComponent;
+import javax.swing.text.*;
 import java.net.URI;
 import java.util.*;
 
 public class MyTextEditor extends JFrame implements ActionListener
 {
    private JPanel panel = new JPanel(new BorderLayout());
-   private JEditorPane textArea = new JEditorPane();
+   private JTextPane textArea = new JTextPane();
+   private JTextArea lineText = new JTextArea();
+  // private TextLineNumber tln = new TextLineNumber(textArea);
    private static final Color TA_BKGRD_CL = Color.BLACK;
    private static final Color TA_FRGRD_CL = Color.GREEN;
    private static final Color TA_CARET_CL = Color.WHITE;
@@ -59,33 +62,34 @@ public class MyTextEditor extends JFrame implements ActionListener
       textArea.setBackground(TA_BKGRD_CL);
       textArea.setCaretColor(TA_CARET_CL);
       textArea.getCaret().setVisible(true);
-      //final LineNumberingTextArea lineNTA = new LineNumberingTextArea(textArea);
+      final LineNumberingTextArea lineNTA = new LineNumberingTextArea(lineText);
       DocumentListener documentListen = new DocumentListener()
       {
          public void insertUpdate(DocumentEvent documentEvent)
          {
-           // lineNTA.updateLineNumbers();  
+           lineNTA.updateLineNumbers();  
          }
          public void removeUpdate(DocumentEvent documentEvent)
          {
-            //lineNTA.updateLineNumbers();
+            lineNTA.updateLineNumbers();
          }
          public void changedUpdate(DocumentEvent documentEvent)
          {
-            //lineNTA.updateLineNumbers();
+            lineNTA.updateLineNumbers();
          }
       };
       textArea.getDocument().addDocumentListener(documentListen);
-      // Line numbers
-     /* lineNTA.setBackground(Color.BLACK);
+      //Line numbers
+      lineNTA.setBackground(Color.BLACK);
       lineNTA.setForeground(Color.WHITE);
       lineNTA.setFont(new Font("Consolas", Font.BOLD, 13));
       lineNTA.setEditable(false);
       lineNTA.setVisible(true);
-      textArea.add(lineNTA);*/
+      textArea.add(lineNTA);
       scrollPane = new JScrollPane(textArea);
+      scrollPane.add(lineNTA);
       scrollPane.setVisible(true);
-      //scrollPane.setRowHeaderView(lineNTA);
+      scrollPane.setRowHeaderView(lineNTA);
 
       getContentPane().add(scrollPane);
 
@@ -230,19 +234,21 @@ public class MyTextEditor extends JFrame implements ActionListener
       int option = open.showOpenDialog(this);
       String filename = open.getSelectedFile().getName();
       String[] filenameAndExt = filename.split(".");
+      int total = 0;
       if(option == JFileChooser.APPROVE_OPTION)
       {
          this.textArea.setText("");
          try
          {
+            StyledDocument doc = textArea.getStyledDocument();
             File file = new File(filename);
-            textArea.setPage(file.toURI().toURL());
-
-            /*Scanner scanner = new Scanner(new FileReader(open.getSelectedFile().getPath()));
+            Scanner scanner = new Scanner(new FileReader(open.getSelectedFile().getPath()));
             while(scanner.hasNext())
             {
-               appendToPane(scanner.nextLine() + "\n");
-            }*/
+               String m = scanner.nextLine();
+               doc.insertString(total,m + "\n",null);
+               total += m.length() +1;
+            }
          }
          catch(Exception ex)
          {
