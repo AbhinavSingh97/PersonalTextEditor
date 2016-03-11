@@ -374,7 +374,7 @@ public class MyTextEditor extends JFrame implements ActionListener
      
       int m;
       int total = 0;
-      for (String line : textArea.getText().split("\\n\r")) 
+      for (String line : textArea.getText().split("\n")) 
       {
          m = line.indexOf(wordToSearch);
          if(m == -1)
@@ -412,7 +412,7 @@ public class MyTextEditor extends JFrame implements ActionListener
       int m;
       int total = 0;
       int wordLength = wordToSearch.length();
-      for (String line : textArea.getText().split("\\n\r")) 
+      for (String line : textArea.getText().split("\n")) 
       {
          m = line.indexOf(wordToSearch);
          if(m == -1)
@@ -437,7 +437,7 @@ public class MyTextEditor extends JFrame implements ActionListener
        String lineToSearch = JOptionPane.showInputDialog(null, "Line Number: ");
        int total = 0;
        int lineNum = 0;
-       for (String line : textArea.getText().split("\\n"))
+       for (String line : textArea.getText().split("\n"))
        {
          lineNum +=1;
          String lineNumStr = lineNum + "";
