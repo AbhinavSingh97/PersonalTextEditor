@@ -10,13 +10,15 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
 import javax.swing.text.JTextComponent;
+import javax.swing.text.Document;
+import javax.swing.text.*;
 import java.net.URI;
 import java.util.*;
 
 public class MyTextEditor extends JFrame implements ActionListener
 {
    private JPanel panel = new JPanel(new BorderLayout());
-   private JEditorPane textArea = new JEditorPane();
+   private JTextPane textArea = new JTextPane();
    private static final Color TA_BKGRD_CL = Color.BLACK;
    private static final Color TA_FRGRD_CL = Color.GREEN;
    private static final Color TA_CARET_CL = Color.WHITE;
@@ -84,6 +86,7 @@ public class MyTextEditor extends JFrame implements ActionListener
       lineNTA.setVisible(true);
       textArea.add(lineNTA);*/
       scrollPane = new JScrollPane(textArea);
+      
       scrollPane.setVisible(true);
       //scrollPane.setRowHeaderView(lineNTA);
 
@@ -367,7 +370,7 @@ public class MyTextEditor extends JFrame implements ActionListener
      
       int m;
       int total = 0;
-      for (String line : textArea.getText().split("\\n")) 
+      for (String line : textArea.getText().split("\\n\r")) 
       {
          m = line.indexOf(wordToSearch);
          if(m == -1)
@@ -405,18 +408,24 @@ public class MyTextEditor extends JFrame implements ActionListener
       int m;
       int total = 0;
       int wordLength = wordToSearch.length();
-      for (String line : textArea.getText().split("\\n")) 
+      for (String line : textArea.getText().split("\\n\r")) 
       {
          m = line.indexOf(wordToSearch);
          if(m == -1)
          {
-            total += line.length() + 1; 
+            total += line.length(); 
             continue;
          }
          
          String newLine = line.replaceAll(wordToSearch, wordToReplace);
-        // textArea.replaceRange(newLine, total, total + line.length());
-         total += newLine.length() + 1;
+         Document text = textArea.getDocument();
+         //textArea.replaceRange(newLine, total, total + line.length());
+         try{
+         text.remove(total, line.length());
+         text.insertString(total, newLine, null);
+         }catch(BadLocationException ex)
+         {}
+         total += newLine.length();
       }
    }
    public void goToLine()
