@@ -299,6 +299,7 @@ public class MyTextEditor extends JFrame implements ActionListener
    }
    public void findKeyWords()
    {
+      /*
       ArrayList<String> wordsInTA = new ArrayList<String>();
       int index = 0;
 
@@ -328,6 +329,15 @@ public class MyTextEditor extends JFrame implements ActionListener
             ex.printStackTrace();
          }
       //}
+      */
+      
+         ArrayList<String> words = new ArrayList<String>();
+         words.add("private");
+         
+        
+
+         for (String line : words)
+            searchJava();
       
    }
    private ArrayList<String> loadJavaWords() throws FileNotFoundException
@@ -368,19 +378,21 @@ public class MyTextEditor extends JFrame implements ActionListener
    }
     public void searchJava() 
    { 
-      String wordToSearch = JOptionPane.showInputDialog(null, "Word to search for:");
+      String wordToSearch = "public";
+      //String wordToSearch = JOptionPane.showInputDialog(null, "Word to search for:");
       final StyleContext cont = StyleContext.getDefaultStyleContext();
       final AttributeSet attr = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground,Color.RED);
       Document text = textArea.getDocument();
 
       int m;
+      int t;
       int total = 0;
       for (String line : textArea.getText().split("\n")) 
       {
          m = line.indexOf(wordToSearch);
          if(m == -1)
          {
-            total += line.length();
+            total += line.length() + 1;
             continue;
          }
          try{
@@ -391,23 +403,23 @@ public class MyTextEditor extends JFrame implements ActionListener
          {}
          while(true)
          {
-            m = line.indexOf(wordToSearch, m + 1);
+            t = line.indexOf(wordToSearch, m + 1);
 
-            if (m == -1)
+            if (t == -1)
             {
                
                break;
             }
             try
             {
-            text.remove(total+m, wordToSearch.length());
+            text.remove(total + t, wordToSearch.length());
 
-            text.insertString(total + m, wordToSearch, attr);
+            text.insertString(total + t, wordToSearch, attr);
             }catch(BadLocationException e)
             {
             }
          }
-         total += line.length();
+         total += line.length() + 1;
       }
    }
    public void search() 
