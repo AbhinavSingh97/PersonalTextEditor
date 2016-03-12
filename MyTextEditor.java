@@ -186,7 +186,7 @@ public class MyTextEditor extends JFrame implements ActionListener
       else if(event.getSource() == this.openFile)
       {
          openFile();
-         searchJava();
+         findKeyWords();
       }
       else if(event.getSource() == this.saveFile)
       {
@@ -332,12 +332,14 @@ public class MyTextEditor extends JFrame implements ActionListener
       */
       
          ArrayList<String> words = new ArrayList<String>();
-         words.add("private");
+         words.add("public");
+         words.add("class");
+
          
         
 
          for (String line : words)
-            searchJava();
+            searchJava(line);
       
    }
    private ArrayList<String> loadJavaWords() throws FileNotFoundException
@@ -376,9 +378,9 @@ public class MyTextEditor extends JFrame implements ActionListener
       }
       return false;
    }
-    public void searchJava() 
+    public void searchJava(String wordToSearch) 
    { 
-      String wordToSearch = "public";
+      //String wordToSearch = "public";
       //String wordToSearch = JOptionPane.showInputDialog(null, "Word to search for:");
       final StyleContext cont = StyleContext.getDefaultStyleContext();
       final AttributeSet attr = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground,Color.RED);
