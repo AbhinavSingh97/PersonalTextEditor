@@ -297,7 +297,7 @@ public class MyTextEditor extends JFrame implements ActionListener
       }
    
    }
-   public void findKeyWords()
+   public void findKeyWords() throws FileNotFoundException
    {
       /*
       ArrayList<String> wordsInTA = new ArrayList<String>();
@@ -331,8 +331,7 @@ public class MyTextEditor extends JFrame implements ActionListener
       //}
       */
       
-         ArrayList<String> words = new ArrayList<String>();
-         words.add("private");
+         ArrayList<String> words = loadJavaWords();
          
         
 
@@ -349,6 +348,11 @@ public class MyTextEditor extends JFrame implements ActionListener
          javaWords.add(scan.next());
       }
       scan.close();
+      System.out.println(javaWords.get(1));
+      System.out.println(javaWords.get(2));
+      System.out.println(javaWords.get(3));
+
+
       return javaWords;
    }
    private boolean binarySearch(String word) throws FileNotFoundException
@@ -392,7 +396,7 @@ public class MyTextEditor extends JFrame implements ActionListener
          m = line.indexOf(wordToSearch);
          if(m == -1)
          {
-            total += line.length() + 1;
+            total += line.length() +1 ;
             continue;
          }
          try{
@@ -403,7 +407,7 @@ public class MyTextEditor extends JFrame implements ActionListener
          {}
          while(true)
          {
-            t = line.indexOf(wordToSearch, m + 1);
+            t = line.indexOf(wordToSearch, m +1 );
 
             if (t == -1)
             {
@@ -419,7 +423,7 @@ public class MyTextEditor extends JFrame implements ActionListener
             {
             }
          }
-         total += line.length() + 1;
+         total += line.length() + 1 ;
       }
    }
    public void search() 
