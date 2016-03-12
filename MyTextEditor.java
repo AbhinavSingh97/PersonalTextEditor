@@ -187,7 +187,14 @@ public class MyTextEditor extends JFrame implements ActionListener
       else if(event.getSource() == this.openFile)
       {
          openFile();
+         try
+         {
          findKeyWords();
+         throw new FileNotFoundException();
+         }catch(FileNotFoundException ex)
+         {
+
+         }
       }
       else if(event.getSource() == this.saveFile)
       {
@@ -331,39 +338,44 @@ public class MyTextEditor extends JFrame implements ActionListener
          }
       //}
       */
-<<<<<<< HEAD
-      
-         ArrayList<String> words = loadJavaWords();
-=======
    
          ArrayList<String> words = loadJavaWords();
-     
-         //words.add("public");
-         //words.add("class");
+         //ArrayList<String> words = new ArrayList<String>();
 
->>>>>>> 93bc1e65ede6cc3d6467b71d6c61b0e8ad0adf9a
+     
+        // words.add("public");
+         //words.add("class");
+         //words.add("this");
+         
+
+
+
+
+
+
          
         
 
          for (String line : words)
+         {
+            //System.out.println(line.length());
+            //System.out.println(line);
             searchJava(line);
+         }
+
+
       
    }
    private ArrayList<String> loadJavaWords() throws FileNotFoundException
    {
       ArrayList<String> javaWords = new ArrayList<String>();
-      File file = new File("MyTextEditor.java");
+      File file = new File("JavaKeyWords.txt");
       Scanner scan = new Scanner(file);
       while(scan.hasNext())
       {
          javaWords.add(scan.next());
       }
       scan.close();
-      System.out.println(javaWords.get(1));
-      System.out.println(javaWords.get(2));
-      System.out.println(javaWords.get(3));
-
-
       return javaWords;
    }
    private boolean binarySearch(String word) throws FileNotFoundException
@@ -407,9 +419,6 @@ public class MyTextEditor extends JFrame implements ActionListener
          m = line.indexOf(wordToSearch);
          if(m == -1)
          {
-<<<<<<< HEAD
-            total += line.length() +1 ;
-=======
             if(isUnix())
             {
             total += line.length() + 1;
@@ -426,8 +435,6 @@ public class MyTextEditor extends JFrame implements ActionListener
             {
                total += line.length() + 1;
             }
-
->>>>>>> 93bc1e65ede6cc3d6467b71d6c61b0e8ad0adf9a
             continue;
          }
          try{
@@ -438,25 +445,23 @@ public class MyTextEditor extends JFrame implements ActionListener
          {}
          while(true)
          {
-            t = line.indexOf(wordToSearch, m +1 );
+            m = line.indexOf(wordToSearch, m + 1 );
 
-            if (t == -1)
+            if (m == -1)
             {
-               
+               System.out.println(line);
+               System.out.println("hi");
                break;
             }
             try
             {
-            text.remove(total + t, wordToSearch.length());
+            text.remove(total + m, wordToSearch.length());
 
-            text.insertString(total + t, wordToSearch, attr);
+            text.insertString(total + m, wordToSearch, attr);
             }catch(BadLocationException e)
             {
             }
          }
-<<<<<<< HEAD
-         total += line.length() + 1 ;
-=======
          if(isUnix())
             {
                total += line.length() + 1;
@@ -475,7 +480,6 @@ public class MyTextEditor extends JFrame implements ActionListener
                JOptionPane.showMessageDialog(null, "Eric You Troll" );
                total += line.length() + 1;
             }
->>>>>>> 93bc1e65ede6cc3d6467b71d6c61b0e8ad0adf9a
       }
    }
    public void search() 
@@ -492,7 +496,22 @@ public class MyTextEditor extends JFrame implements ActionListener
          m = line.indexOf(wordToSearch);
          if(m == -1)
          {
-            total += line.length();
+            if(isUnix())
+            {
+            total += line.length() + 1;
+            }
+            else if(isWindows())
+            {
+               total += line.length();
+            }
+            else if(isMac())
+            {
+               total += line.length() + 1;
+            }
+            else
+            {
+               total += line.length() + 1;
+            }
             continue;
          }
          try{
@@ -514,7 +533,23 @@ public class MyTextEditor extends JFrame implements ActionListener
             {
             }
          }
-         total += line.length();
+         if(isUnix())
+            {
+            total += line.length() + 1;
+            }
+            else if(isWindows())
+            {
+               total += line.length();
+            }
+            else if(isMac())
+            {
+               total += line.length() + 1;
+            }
+            else
+            {
+               total += line.length() + 1;
+            }
+            continue;
       }
    }
    
