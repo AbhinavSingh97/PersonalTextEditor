@@ -61,7 +61,7 @@ public class MyTextEditor extends JFrame implements ActionListener
       textArea.setForeground(TA_FRGRD_CL);
       textArea.setBackground(TA_BKGRD_CL);
       textArea.setCaretColor(TA_CARET_CL);
-      textArea.getCaret().setVisible(true);
+      textArea.getCaret().setVisible(true);      
       final LineNumberingTextArea lineNTA = new LineNumberingTextArea(lineText);
       DocumentListener documentListen = new DocumentListener()
       {
@@ -186,6 +186,7 @@ public class MyTextEditor extends JFrame implements ActionListener
       else if(event.getSource() == this.openFile)
       {
          openFile();
+         searchJava();
       }
       else if(event.getSource() == this.saveFile)
       {
@@ -256,7 +257,7 @@ public class MyTextEditor extends JFrame implements ActionListener
             System.out.println(ex.getMessage());
          }
       }
-      findKeyWords(filenameAndExt[1]);
+     // findKeyWords(filenameAndExt[1]);
    }
    public void saveFile()
    {
@@ -296,13 +297,13 @@ public class MyTextEditor extends JFrame implements ActionListener
       }
    
    }
-   public void findKeyWords(String ext)
+   public void findKeyWords()
    {
       ArrayList<String> wordsInTA = new ArrayList<String>();
       int index = 0;
 
-      if(ext == "java")
-      {
+      //if(ext == "java")
+      //{
          for(String line : textArea.getText().split(" "))
          {
             wordsInTA.add(line);
@@ -315,7 +316,7 @@ public class MyTextEditor extends JFrame implements ActionListener
           {
                String temp = wordsInTA.get(index);
                boolean isKeyWord = binarySearch(temp);
-               if(isKeyWord)
+               if(isKeyWord == true)
                {
                  
                } 
@@ -326,7 +327,7 @@ public class MyTextEditor extends JFrame implements ActionListener
          {
             ex.printStackTrace();
          }
-      }
+      //}
       
    }
    private ArrayList<String> loadJavaWords() throws FileNotFoundException
@@ -364,6 +365,50 @@ public class MyTextEditor extends JFrame implements ActionListener
          }
       }
       return false;
+   }
+    public void searchJava() 
+   { 
+      String wordToSearch = JOptionPane.showInputDialog(null, "Word to search for:");
+      final StyleContext cont = StyleContext.getDefaultStyleContext();
+      final AttributeSet attr = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground,Color.RED);
+      Document text = textArea.getDocument();
+
+      int m;
+      int total = 0;
+      for (String line : textArea.getText().split("\n")) 
+      {
+         m = line.indexOf(wordToSearch);
+         if(m == -1)
+         {
+            total += line.length();
+            continue;
+         }
+         try{
+         text.remove(total + m, wordToSearch.length());
+
+         text.insertString(total + m, wordToSearch, attr);
+         }catch(BadLocationException ex)
+         {}
+         while(true)
+         {
+            m = line.indexOf(wordToSearch, m + 1);
+
+            if (m == -1)
+            {
+               
+               break;
+            }
+            try
+            {
+            text.remove(total+m, wordToSearch.length());
+
+            text.insertString(total + m, wordToSearch, attr);
+            }catch(BadLocationException e)
+            {
+            }
+         }
+         total += line.length();
+      }
    }
    public void search() 
    { 
@@ -404,6 +449,7 @@ public class MyTextEditor extends JFrame implements ActionListener
          total += line.length();
       }
    }
+   
    public void replace()
    {
       String wordToSearch = JOptionPane.showInputDialog(null, "Word to replace:");
@@ -424,11 +470,15 @@ public class MyTextEditor extends JFrame implements ActionListener
          String newLine = line.replaceAll(wordToSearch, wordToReplace);
          Document text = textArea.getDocument();
          //textArea.replaceRange(newLine, total, total + line.length());
-         try{
+         try
+         {
          text.remove(total, line.length());
          text.insertString(total, newLine, null);
-         }catch(BadLocationException ex)
-         {}
+         }
+         catch(BadLocationException ex)
+         {
+
+         }
          total += newLine.length();
       }
    }
@@ -479,7 +529,6 @@ public class MyTextEditor extends JFrame implements ActionListener
          ex.printStackTrace();
       }
    }
-
    public static void main(String args[])
    {
       MyTextEditor textEditor = new MyTextEditor();
