@@ -49,7 +49,8 @@ public class MyTextEditor extends JFrame implements ActionListener
    private MenuItem documentation = new MenuItem();
    //Secret Commands 
    private MenuItem delete = new MenuItem();
-
+   
+   private static String OS = System.getProperty("os.name").toLowerCase();
 
 
    public MyTextEditor()
@@ -394,7 +395,23 @@ public class MyTextEditor extends JFrame implements ActionListener
          m = line.indexOf(wordToSearch);
          if(m == -1)
          {
+            if(isUnix())
+            {
             total += line.length() + 1;
+            }
+            else if(isWindows())
+            {
+               total += line.length();
+            }
+            else if(isMac())
+            {
+               total += line.length() + 1;
+            }
+            else
+            {
+               total += line.length() + 1;
+            }
+
             continue;
          }
          try{
@@ -421,7 +438,23 @@ public class MyTextEditor extends JFrame implements ActionListener
             {
             }
          }
-         total += line.length() + 1;
+         if(isUnix())
+            {
+               total += line.length() + 1;
+               
+            }
+            else if(isWindows())
+            {
+               total += line.length();
+            }
+            else if(isMac())
+            {
+               total += line.length() + 1;
+            }
+            else
+            {
+               total += line.length() + 1;
+            }
       }
    }
    public void search() 
@@ -543,6 +576,30 @@ public class MyTextEditor extends JFrame implements ActionListener
          ex.printStackTrace();
       }
    }
+   public static boolean isWindows() 
+   {
+
+      return (OS.indexOf("win") >= 0);
+
+   }
+   public static boolean isLinux() 
+   {
+
+      return (OS.indexOf("Lin") >= 0);
+
+   }
+   public static boolean isUnix() {
+
+      return (OS.indexOf("nix") >= 0 ||
+       OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0 );
+      
+   }
+   public static boolean isMac() {
+
+      return (OS.indexOf("mac") >= 0);
+
+   }
+
    public static void main(String args[])
    {
       MyTextEditor textEditor = new MyTextEditor();
