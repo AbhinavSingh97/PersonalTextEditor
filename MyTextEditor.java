@@ -331,10 +331,11 @@ public class MyTextEditor extends JFrame implements ActionListener
          }
       //}
       */
-      
-         ArrayList<String> words = new ArrayList<String>();
-         words.add("public");
-         words.add("class");
+   
+         ArrayList<String> words = loadJavaWords();
+     
+         //words.add("public");
+         //words.add("class");
 
          
         
@@ -346,7 +347,9 @@ public class MyTextEditor extends JFrame implements ActionListener
    private ArrayList<String> loadJavaWords() throws FileNotFoundException
    {
       ArrayList<String> javaWords = new ArrayList<String>();
-      Scanner scan = new Scanner(new File("JavaKeyWords.txt"));
+      File file = new File("MyTextEditor.java");
+      System.out.println(file);
+      Scanner scan = new Scanner(file);
       while(scan.hasNext())
       {
          javaWords.add(scan.next());
@@ -453,6 +456,7 @@ public class MyTextEditor extends JFrame implements ActionListener
             }
             else
             {
+               JOptionPane.showMessageDialog(null, "Eric You Troll" );
                total += line.length() + 1;
             }
       }
