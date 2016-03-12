@@ -24,6 +24,7 @@ public class MyTextEditor extends JFrame implements ActionListener
    private static final Color TA_FRGRD_CL = Color.GREEN;
    private static final Color TA_CARET_CL = Color.WHITE;
 
+
    private JScrollPane scrollPane;
    private MenuBar menuBar = new MenuBar(); 
    private Menu file = new Menu();
@@ -62,13 +63,16 @@ public class MyTextEditor extends JFrame implements ActionListener
       textArea.setForeground(TA_FRGRD_CL);
       textArea.setBackground(TA_BKGRD_CL);
       textArea.setCaretColor(TA_CARET_CL);
-      textArea.getCaret().setVisible(true);      
+      textArea.getCaret().setVisible(true); 
+
+
       final LineNumberingTextArea lineNTA = new LineNumberingTextArea(lineText);
       DocumentListener documentListen = new DocumentListener()
       {
          public void insertUpdate(DocumentEvent documentEvent)
          {
-           lineNTA.updateLineNumbers();  
+           lineNTA.updateLineNumbers();   
+           textArea.findKeyWords();
          }
          public void removeUpdate(DocumentEvent documentEvent)
          {
@@ -179,6 +183,14 @@ public class MyTextEditor extends JFrame implements ActionListener
 
    public void actionPerformed(ActionEvent event)
    {
+      try
+         {
+         findKeyWords();
+         throw new FileNotFoundException();
+         }catch(FileNotFoundException ex)
+         {
+
+         }
       if(event.getSource() == this.closeFile)
       {
          this.dispose();
@@ -187,14 +199,6 @@ public class MyTextEditor extends JFrame implements ActionListener
       else if(event.getSource() == this.openFile)
       {
          openFile();
-         try
-         {
-         findKeyWords();
-         throw new FileNotFoundException();
-         }catch(FileNotFoundException ex)
-         {
-
-         }
       }
       else if(event.getSource() == this.saveFile)
       {
@@ -238,12 +242,26 @@ public class MyTextEditor extends JFrame implements ActionListener
          dispose();
       }
    }
+   /*
+   public int findIndexOfWord(String string)
+   {
+      char[] myChar = string.toCharArray();
+      char[] myChar2 = new [myChar.
+      for(int i = 0; i < myChar.length; i--)
+      {
+         myChar
+      }
+      return 10;
+
+   }
+   */
    public void openFile()
    {
       JFileChooser open = new JFileChooser();
       int option = open.showOpenDialog(this);
       String filename = open.getSelectedFile().getName();
-      String[] filenameAndExt = filename.split(".");
+      int indexOfWord = filename.indexOf(".");
+      String ext = filename.substring(indexOfWord + 1,filename.length());
       int total = 0;
       if(option == JFileChooser.APPROVE_OPTION)
       {
@@ -265,7 +283,17 @@ public class MyTextEditor extends JFrame implements ActionListener
             System.out.println(ex.getMessage());
          }
       }
-     // findKeyWords(filenameAndExt[1]);
+     if(ext.equals("java"))
+     {
+      try
+         {
+         findKeyWords();
+         throw new FileNotFoundException();
+         }catch(FileNotFoundException ex)
+         {
+
+         }
+     }
    }
    public void saveFile()
    {
@@ -338,29 +366,28 @@ public class MyTextEditor extends JFrame implements ActionListener
          }
       //}
       */
-   
+      final StyleContext cont = StyleContext.getDefaultStyleContext();
+      final AttributeSet jKeyWord = cont.addAttribute(cont.getEmptySet(), 
+         StyleConstants.Foreground,Color.RED);
+      final AttributeSet jOperator = cont.addAttribute(cont.getEmptySet(), 
+         StyleConstants.Foreground,Color.MAGENTA);
+      final AttributeSet jtypes = cont.addAttribute(cont.getEmptySet(), 
+         StyleConstants.Foreground,Color.CYAN);
+
          ArrayList<String> words = loadJavaWords();
-         //ArrayList<String> words = new ArrayList<String>();
-
-     
-        // words.add("public");
-         //words.add("class");
-         //words.add("this");
-         
-
-
-
-
-
-
-         
-        
-
          for (String line : words)
          {
-            //System.out.println(line.length());
-            //System.out.println(line);
-            searchJava(line);
+            searchJava(line,jKeyWord);
+         }
+         ArrayList<String> operators = loadJavaOperators();
+         for (String line : operators)
+         {
+            searchJava(line, jOperator);
+         }
+         ArrayList<String> types = loadJavaTypes();
+         for (String line : types)
+         {
+            searchJava(line, jtypes);
          }
 
 
@@ -370,6 +397,30 @@ public class MyTextEditor extends JFrame implements ActionListener
    {
       ArrayList<String> javaWords = new ArrayList<String>();
       File file = new File("JavaKeyWords.txt");
+      Scanner scan = new Scanner(file);
+      while(scan.hasNext())
+      {
+         javaWords.add(scan.next());
+      }
+      scan.close();
+      return javaWords;
+   }
+   private ArrayList<String> loadJavaOperators() throws FileNotFoundException
+   {
+      ArrayList<String> javaWords = new ArrayList<String>();
+      File file = new File("JavaOperators.txt");
+      Scanner scan = new Scanner(file);
+      while(scan.hasNext())
+      {
+         javaWords.add(scan.next());
+      }
+      scan.close();
+      return javaWords;
+   }
+   private ArrayList<String> loadJavaTypes() throws FileNotFoundException
+   {
+      ArrayList<String> javaWords = new ArrayList<String>();
+      File file = new File("JavaTypes.txt");
       Scanner scan = new Scanner(file);
       while(scan.hasNext())
       {
@@ -403,12 +454,12 @@ public class MyTextEditor extends JFrame implements ActionListener
       }
       return false;
    }
-    public void searchJava(String wordToSearch) 
+    public void searchJava(String wordToSearch, AttributeSet javaAttr) 
    { 
       //String wordToSearch = "public";
       //String wordToSearch = JOptionPane.showInputDialog(null, "Word to search for:");
-      final StyleContext cont = StyleContext.getDefaultStyleContext();
-      final AttributeSet attr = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground,Color.RED);
+      
+      final AttributeSet attr = javaAttr;
       Document text = textArea.getDocument();
 
       int m;
@@ -449,8 +500,6 @@ public class MyTextEditor extends JFrame implements ActionListener
 
             if (m == -1)
             {
-               System.out.println(line);
-               System.out.println("hi");
                break;
             }
             try
