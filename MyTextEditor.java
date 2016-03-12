@@ -348,7 +348,6 @@ public class MyTextEditor extends JFrame implements ActionListener
    {
       ArrayList<String> javaWords = new ArrayList<String>();
       File file = new File("MyTextEditor.java");
-      System.out.println(file);
       Scanner scan = new Scanner(file);
       while(scan.hasNext())
       {

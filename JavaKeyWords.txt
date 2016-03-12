@@ -6,12 +6,13 @@ switch
 assert
 default	
 goto
-package	s
-ynchronized
+package	
+synchronized
 boolean	
 do	
 if	
-private	this
+private	
+this
 break	
 double	
 implements	
