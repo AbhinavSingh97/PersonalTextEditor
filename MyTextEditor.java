@@ -49,7 +49,8 @@ public class MyTextEditor extends JFrame implements ActionListener
    private MenuItem documentation = new MenuItem();
    //Secret Commands 
    private MenuItem delete = new MenuItem();
-
+   
+   private static String OS = System.getProperty("os.name").toLowerCase();
 
 
    public MyTextEditor()
@@ -186,7 +187,7 @@ public class MyTextEditor extends JFrame implements ActionListener
       else if(event.getSource() == this.openFile)
       {
          openFile();
-         searchJava();
+         findKeyWords();
       }
       else if(event.getSource() == this.saveFile)
       {
@@ -330,19 +331,30 @@ public class MyTextEditor extends JFrame implements ActionListener
          }
       //}
       */
+<<<<<<< HEAD
       
          ArrayList<String> words = loadJavaWords();
+=======
+   
+         ArrayList<String> words = loadJavaWords();
+     
+         //words.add("public");
+         //words.add("class");
+
+>>>>>>> 93bc1e65ede6cc3d6467b71d6c61b0e8ad0adf9a
          
         
 
          for (String line : words)
-            searchJava();
+            searchJava(line);
       
    }
    private ArrayList<String> loadJavaWords() throws FileNotFoundException
    {
       ArrayList<String> javaWords = new ArrayList<String>();
-      Scanner scan = new Scanner(new File("JavaKeyWords.txt"));
+      File file = new File("MyTextEditor.java");
+      System.out.println(file);
+      Scanner scan = new Scanner(file);
       while(scan.hasNext())
       {
          javaWords.add(scan.next());
@@ -380,9 +392,9 @@ public class MyTextEditor extends JFrame implements ActionListener
       }
       return false;
    }
-    public void searchJava() 
+    public void searchJava(String wordToSearch) 
    { 
-      String wordToSearch = "public";
+      //String wordToSearch = "public";
       //String wordToSearch = JOptionPane.showInputDialog(null, "Word to search for:");
       final StyleContext cont = StyleContext.getDefaultStyleContext();
       final AttributeSet attr = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground,Color.RED);
@@ -396,7 +408,27 @@ public class MyTextEditor extends JFrame implements ActionListener
          m = line.indexOf(wordToSearch);
          if(m == -1)
          {
+<<<<<<< HEAD
             total += line.length() +1 ;
+=======
+            if(isUnix())
+            {
+            total += line.length() + 1;
+            }
+            else if(isWindows())
+            {
+               total += line.length();
+            }
+            else if(isMac())
+            {
+               total += line.length() + 1;
+            }
+            else
+            {
+               total += line.length() + 1;
+            }
+
+>>>>>>> 93bc1e65ede6cc3d6467b71d6c61b0e8ad0adf9a
             continue;
          }
          try{
@@ -423,7 +455,28 @@ public class MyTextEditor extends JFrame implements ActionListener
             {
             }
          }
+<<<<<<< HEAD
          total += line.length() + 1 ;
+=======
+         if(isUnix())
+            {
+               total += line.length() + 1;
+               
+            }
+            else if(isWindows())
+            {
+               total += line.length();
+            }
+            else if(isMac())
+            {
+               total += line.length() + 1;
+            }
+            else
+            {
+               JOptionPane.showMessageDialog(null, "Eric You Troll" );
+               total += line.length() + 1;
+            }
+>>>>>>> 93bc1e65ede6cc3d6467b71d6c61b0e8ad0adf9a
       }
    }
    public void search() 
@@ -545,6 +598,30 @@ public class MyTextEditor extends JFrame implements ActionListener
          ex.printStackTrace();
       }
    }
+   public static boolean isWindows() 
+   {
+
+      return (OS.indexOf("win") >= 0);
+
+   }
+   public static boolean isLinux() 
+   {
+
+      return (OS.indexOf("Lin") >= 0);
+
+   }
+   public static boolean isUnix() {
+
+      return (OS.indexOf("nix") >= 0 ||
+       OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0 );
+      
+   }
+   public static boolean isMac() {
+
+      return (OS.indexOf("mac") >= 0);
+
+   }
+
    public static void main(String args[])
    {
       MyTextEditor textEditor = new MyTextEditor();
