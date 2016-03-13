@@ -71,7 +71,7 @@ public class MyTextEditor extends JFrame implements ActionListener
       {
          public void insertUpdate(DocumentEvent documentEvent)
          {
-           lineNTA.updateLineNumbers();   
+           lineNTA.updateLineNumbers();  
          }
          public void removeUpdate(DocumentEvent documentEvent)
          {
@@ -407,7 +407,7 @@ public class MyTextEditor extends JFrame implements ActionListener
       Scanner scan = new Scanner(file);
       while(scan.hasNext())
       {
-         javaWords.add(scan.next());
+         javaWords.add(" " + scan.next());
       }
       scan.close();
       return javaWords;
@@ -608,7 +608,7 @@ public class MyTextEditor extends JFrame implements ActionListener
             textArea.setCaretPosition(total);
             break;
          }
-         total += line.length();
+         total += line.length() + 1;
 
        }
    }
