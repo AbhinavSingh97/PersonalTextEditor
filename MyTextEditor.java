@@ -348,9 +348,6 @@ public class MyTextEditor extends JFrame implements ActionListener
          {
             searchJava(line, jtypes);
          }
-
-
-      
    }
    private ArrayList<String> loadKeyWords(String directory) throws FileNotFoundException
    {
@@ -393,8 +390,6 @@ public class MyTextEditor extends JFrame implements ActionListener
    }
     public void searchJava(String wordToSearch, AttributeSet javaAttr) 
    { 
-      //String wordToSearch = "public";
-      //String wordToSearch = JOptionPane.showInputDialog(null, "Word to search for:");
       
       final AttributeSet attr = javaAttr;
       Document text = textArea.getDocument();
@@ -558,7 +553,6 @@ public class MyTextEditor extends JFrame implements ActionListener
          
          String newLine = line.replaceAll(wordToSearch, wordToReplace);
          Document text = textArea.getDocument();
-         //textArea.replaceRange(newLine, total, total + line.length());
          try
          {
          text.remove(total, line.length());
