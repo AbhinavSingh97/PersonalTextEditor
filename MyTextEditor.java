@@ -24,7 +24,7 @@ public class MyTextEditor extends JFrame implements ActionListener
    private static final Color TA_FRGRD_CL = Color.GREEN;
    private static final Color TA_CARET_CL = Color.WHITE;
 
-
+   private String extOfFile;
    private JScrollPane scrollPane;
    private MenuBar menuBar = new MenuBar(); 
    private Menu file = new Menu();
@@ -206,6 +206,13 @@ public class MyTextEditor extends JFrame implements ActionListener
       else if(event.getSource() == this.replace)
       {
          replace();
+         try{
+         findKeyWords(extOfFile);
+         throw new FileNotFoundException();
+         }catch(FileNotFoundException ex)
+         {
+
+         }
       }
       else if(event.getSource() == this.goToLine)
       {
@@ -253,6 +260,7 @@ public class MyTextEditor extends JFrame implements ActionListener
       String filename = open.getSelectedFile().getName();
       int indexOfWord = filename.indexOf(".");
       String ext = filename.substring(indexOfWord + 1,filename.length());
+      extOfFile = ext;
       int total = 0;
       if(option == JFileChooser.APPROVE_OPTION)
       {
@@ -360,7 +368,7 @@ public class MyTextEditor extends JFrame implements ActionListener
       Scanner scan = new Scanner(file);
       while(scan.hasNext())
       {
-         javaWords.add(" " + scan.next() + " ");
+         javaWords.add(scan.next() + " ");
       }
       scan.close();
       return javaWords;
@@ -538,7 +546,6 @@ public class MyTextEditor extends JFrame implements ActionListener
             continue;
       }
    }
-   
    public void replace()
    {
       String wordToSearch = JOptionPane.showInputDialog(null, "Word to replace:");
@@ -552,13 +559,12 @@ public class MyTextEditor extends JFrame implements ActionListener
          m = line.indexOf(wordToSearch);
          if(m == -1)
          {
-            total += line.length(); 
+            total += line.length() + 1; 
             continue;
          }
          
          String newLine = line.replaceAll(wordToSearch, wordToReplace);
          Document text = textArea.getDocument();
-         //textArea.replaceRange(newLine, total, total + line.length());
          try
          {
          text.remove(total, line.length());
@@ -568,7 +574,7 @@ public class MyTextEditor extends JFrame implements ActionListener
          {
 
          }
-         total += newLine.length();
+         total += newLine.length() + 1;
       }
    }
    public void goToLine()
