@@ -182,14 +182,6 @@ public class MyTextEditor extends JFrame implements ActionListener
 
    public void actionPerformed(ActionEvent event)
    {
-      try
-         {
-         findKeyWords();
-         throw new FileNotFoundException();
-         }catch(FileNotFoundException ex)
-         {
-
-         }
       if(event.getSource() == this.closeFile)
       {
          this.dispose();
@@ -274,7 +266,7 @@ public class MyTextEditor extends JFrame implements ActionListener
             {
                String m = scanner.nextLine();
                doc.insertString(total,m + "\n",null);
-               total += m.length() +1;
+               total += m.length() + 1;
             }
          }
          catch(Exception ex)
@@ -282,17 +274,16 @@ public class MyTextEditor extends JFrame implements ActionListener
             System.out.println(ex.getMessage());
          }
       }
-     if(ext.equals("java"))
-     {
+     
       try
          {
-         findKeyWords();
+         findKeyWords(ext);
          throw new FileNotFoundException();
          }catch(FileNotFoundException ex)
          {
 
          }
-     }
+     
    }
    public void saveFile()
    {
@@ -332,39 +323,8 @@ public class MyTextEditor extends JFrame implements ActionListener
       }
    
    }
-   public void findKeyWords() throws FileNotFoundException
+   public void findKeyWords(String directory) throws FileNotFoundException
    {
-      /*
-      ArrayList<String> wordsInTA = new ArrayList<String>();
-      int index = 0;
-
-      //if(ext == "java")
-      //{
-         for(String line : textArea.getText().split(" "))
-         {
-            wordsInTA.add(line);
-            index++;
-         }
-         try
-         {
-          
-          while(index>0)
-          {
-               String temp = wordsInTA.get(index);
-               boolean isKeyWord = binarySearch(temp);
-               if(isKeyWord == true)
-               {
-                 
-               } 
-               index--;    
-         }
-       }
-       catch(IOException ex)
-         {
-            ex.printStackTrace();
-         }
-      //}
-      */
       final StyleContext cont = StyleContext.getDefaultStyleContext();
       final AttributeSet jKeyWord = cont.addAttribute(cont.getEmptySet(), 
          StyleConstants.Foreground,Color.RED);
@@ -373,24 +333,17 @@ public class MyTextEditor extends JFrame implements ActionListener
       final AttributeSet jtypes = cont.addAttribute(cont.getEmptySet(), 
          StyleConstants.Foreground,Color.CYAN);
 
-         ArrayList<String> words = loadJavaWords();
+         ArrayList<String> words = loadKeyWords(directory);
          for (String line : words)
          {
             searchJava(line,jKeyWord);
          }
-         ArrayList<String> operators = loadJavaOperators();
+         ArrayList<String> operators = loadOperators(directory);
          for (String line : operators)
          {
             searchJava(line, jOperator);
          }
-         /*
-         ArrayList<String> types = loadJavaTypes();
-         for (String line : types)
-         {
-            searchJava(line, jtypes);
-         }
-         */
-         ArrayList<String> types1 = loadJavaTypes1();
+         ArrayList<String> types1 = loadTypes(directory);
          for (String line : types1)
          {
             searchJava(line, jtypes);
@@ -399,49 +352,24 @@ public class MyTextEditor extends JFrame implements ActionListener
 
       
    }
-   private ArrayList<String> loadJavaWords() throws FileNotFoundException
-   {
-      ArrayList<String> javaWords = new ArrayList<String>();
-      File file = new File("JavaKeyWords.txt");
-      Scanner scan = new Scanner(file);
-      while(scan.hasNext())
-      {
-         javaWords.add(scan.next());
-      }
-      scan.close();
-      return javaWords;
-   }
-   private ArrayList<String> loadJavaOperators() throws FileNotFoundException
-   {
-      ArrayList<String> javaWords = new ArrayList<String>();
-      File file = new File("JavaOperators.txt");
-      Scanner scan = new Scanner(file);
-      while(scan.hasNext())
-      {
-         javaWords.add(scan.next());
-      }
-      scan.close();
-      return javaWords;
-   }
-   private ArrayList<String> loadJavaTypes() throws FileNotFoundException
-   {
-      ArrayList<String> javaWords = new ArrayList<String>();
-      File file = new File("JavaTypes.txt");
-      Scanner scan = new Scanner(file);
-      while(scan.hasNext())
-      {
-         javaWords.add(scan.next());
-      }
-      scan.close();
-      return javaWords;
-   }
-   private ArrayList<String> loadJavaTypes1() throws FileNotFoundException
+   private ArrayList<String> loadKeyWords(String directory) throws FileNotFoundException
    {
       ArrayList<String> javaWords = new ArrayList<String>();
       final String dir = System.getProperty("user.dir");
-      System.out.println(dir + "/java/types.txt");
-      String directory = "java";
-      File file = new File(dir + "/" + directory +"/types.txt");
+      File file = new File(dir + "/" + directory + "/keywords.txt");
+      Scanner scan = new Scanner(file);
+      while(scan.hasNext())
+      {
+         javaWords.add(" " + scan.next() + " ");
+      }
+      scan.close();
+      return javaWords;
+   }
+   private ArrayList<String> loadOperators(String directory) throws FileNotFoundException
+   {
+      ArrayList<String> javaWords = new ArrayList<String>();
+      final String dir = System.getProperty("user.dir");
+      File file = new File(dir + "/" + directory + "/operators.txt");
       Scanner scan = new Scanner(file);
       while(scan.hasNext())
       {
@@ -450,31 +378,18 @@ public class MyTextEditor extends JFrame implements ActionListener
       scan.close();
       return javaWords;
    }
-
-   private boolean binarySearch(String word) throws FileNotFoundException
+   private ArrayList<String> loadTypes(String directory) throws FileNotFoundException
    {
-      ArrayList<String> javaWords = loadJavaWords();
-      int min = 0;
-      int max = javaWords.size()-1;
-      while(min <= max)
+      ArrayList<String> javaWords = new ArrayList<String>();
+      final String dir = System.getProperty("user.dir");
+      File file = new File(dir + "/" + directory + "/types.txt");
+      Scanner scan = new Scanner(file);
+      while(scan.hasNext())
       {
-         int index = (max + min)/2;
-         String guess = javaWords.get(index);
-         int result = word.compareTo(guess);
-         if(result == 0)
-         {
-            return true;
-         }
-         else if(result > 0)
-         {
-            min = index +1;
-         }
-         else if(result < 0)
-         {
-            max = index -1;
-         }
+         javaWords.add(scan.next());
       }
-      return false;
+      scan.close();
+      return javaWords;
    }
     public void searchJava(String wordToSearch, AttributeSet javaAttr) 
    { 
