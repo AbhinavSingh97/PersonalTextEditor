@@ -72,7 +72,6 @@ public class MyTextEditor extends JFrame implements ActionListener
          public void insertUpdate(DocumentEvent documentEvent)
          {
            lineNTA.updateLineNumbers();   
-           textArea.findKeyWords();
          }
          public void removeUpdate(DocumentEvent documentEvent)
          {
@@ -384,8 +383,15 @@ public class MyTextEditor extends JFrame implements ActionListener
          {
             searchJava(line, jOperator);
          }
+         /*
          ArrayList<String> types = loadJavaTypes();
          for (String line : types)
+         {
+            searchJava(line, jtypes);
+         }
+         */
+         ArrayList<String> types1 = loadJavaTypes1();
+         for (String line : types1)
          {
             searchJava(line, jtypes);
          }
@@ -429,6 +435,22 @@ public class MyTextEditor extends JFrame implements ActionListener
       scan.close();
       return javaWords;
    }
+   private ArrayList<String> loadJavaTypes1() throws FileNotFoundException
+   {
+      ArrayList<String> javaWords = new ArrayList<String>();
+      final String dir = System.getProperty("user.dir");
+      System.out.println(dir + "/java/types.txt");
+      String directory = "java";
+      File file = new File(dir + "/" + directory +"/types.txt");
+      Scanner scan = new Scanner(file);
+      while(scan.hasNext())
+      {
+         javaWords.add(scan.next());
+      }
+      scan.close();
+      return javaWords;
+   }
+
    private boolean binarySearch(String word) throws FileNotFoundException
    {
       ArrayList<String> javaWords = loadJavaWords();
