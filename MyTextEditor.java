@@ -24,7 +24,7 @@ public class MyTextEditor extends JFrame implements ActionListener
    private static final Color TA_FRGRD_CL = Color.GREEN;
    private static final Color TA_CARET_CL = Color.WHITE;
 
-
+   private String extOfFile;
    private JScrollPane scrollPane;
    private MenuBar menuBar = new MenuBar(); 
    private Menu file = new Menu();
@@ -71,7 +71,7 @@ public class MyTextEditor extends JFrame implements ActionListener
       {
          public void insertUpdate(DocumentEvent documentEvent)
          {
-           lineNTA.updateLineNumbers();   
+           lineNTA.updateLineNumbers();  
          }
          public void removeUpdate(DocumentEvent documentEvent)
          {
@@ -206,6 +206,13 @@ public class MyTextEditor extends JFrame implements ActionListener
       else if(event.getSource() == this.replace)
       {
          replace();
+         try{
+         findKeyWords(extOfFile);
+         throw new FileNotFoundException();
+         }catch(FileNotFoundException ex)
+         {
+
+         }
       }
       else if(event.getSource() == this.goToLine)
       {
@@ -233,26 +240,40 @@ public class MyTextEditor extends JFrame implements ActionListener
          dispose();
       }
    }
-   /*
+   
    public int findIndexOfWord(String string)
    {
       char[] myChar = string.toCharArray();
-      char[] myChar2 = new [myChar.
-      for(int i = 0; i < myChar.length; i--)
+      char[] myChar2 = new char[myChar.length];
+      int m = 0;
+      for(int i = myChar.length - 1; i >= 0; i--)
       {
-         myChar
+         myChar2[m] = myChar[i];
+         m++;
       }
-      return 10;
+      int z = -1;
+      for(char k : myChar2)
+      {
+
+         if(k == '.')
+         {
+            return myChar.length - z;
+         }
+         z++;
+      }
+      return -1;
 
    }
-   */
    public void openFile()
    {
       JFileChooser open = new JFileChooser();
       int option = open.showOpenDialog(this);
       String filename = open.getSelectedFile().getName();
-      int indexOfWord = filename.indexOf(".");
-      String ext = filename.substring(indexOfWord + 1,filename.length());
+      //int indexOfWord = filename.indexOf(".");
+      int indexOfWord = findIndexOfWord(filename);
+      String ext = filename.substring(indexOfWord - 1,filename.length());
+      System.out.println(ext);
+      extOfFile = ext;
       int total = 0;
       if(option == JFileChooser.APPROVE_OPTION)
       {
@@ -357,7 +378,7 @@ public class MyTextEditor extends JFrame implements ActionListener
       Scanner scan = new Scanner(file);
       while(scan.hasNext())
       {
-         javaWords.add(" " + scan.next() + " ");
+         javaWords.add(scan.next() + " ");
       }
       scan.close();
       return javaWords;
@@ -383,7 +404,7 @@ public class MyTextEditor extends JFrame implements ActionListener
       Scanner scan = new Scanner(file);
       while(scan.hasNext())
       {
-         javaWords.add(scan.next());
+         javaWords.add(" " + scan.next());
       }
       scan.close();
       return javaWords;
@@ -533,7 +554,6 @@ public class MyTextEditor extends JFrame implements ActionListener
             continue;
       }
    }
-   
    public void replace()
    {
       String wordToSearch = JOptionPane.showInputDialog(null, "Word to replace:");
@@ -547,7 +567,7 @@ public class MyTextEditor extends JFrame implements ActionListener
          m = line.indexOf(wordToSearch);
          if(m == -1)
          {
-            total += line.length(); 
+            total += line.length() + 1; 
             continue;
          }
          
@@ -562,7 +582,7 @@ public class MyTextEditor extends JFrame implements ActionListener
          {
 
          }
-         total += newLine.length();
+         total += newLine.length() + 1;
       }
    }
    public void goToLine()
@@ -583,7 +603,7 @@ public class MyTextEditor extends JFrame implements ActionListener
             textArea.setCaretPosition(total);
             break;
          }
-         total += line.length();
+         total += line.length() + 1;
 
        }
    }
