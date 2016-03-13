@@ -240,26 +240,39 @@ public class MyTextEditor extends JFrame implements ActionListener
          dispose();
       }
    }
-   /*
+   
    public int findIndexOfWord(String string)
    {
       char[] myChar = string.toCharArray();
-      char[] myChar2 = new [myChar.
-      for(int i = 0; i < myChar.length; i--)
+      char[] myChar2 = new char[myChar.length];
+      int m = 0;
+      for(int i = myChar.length - 1; i >= 0; i--)
       {
-         myChar
+         myChar2[m] = myChar[i];
+         m++;
       }
-      return 10;
+      int z = -1;
+      for(char k : myChar2)
+      {
+
+         if(k == '.')
+         {
+            return myChar.length - z;
+         }
+         z++;
+      }
+      return -1;
 
    }
-   */
    public void openFile()
    {
       JFileChooser open = new JFileChooser();
       int option = open.showOpenDialog(this);
       String filename = open.getSelectedFile().getName();
-      int indexOfWord = filename.indexOf(".");
-      String ext = filename.substring(indexOfWord + 1,filename.length());
+      //int indexOfWord = filename.indexOf(".");
+      int indexOfWord = findIndexOfWord(filename);
+      String ext = filename.substring(indexOfWord - 1,filename.length());
+      System.out.println(ext);
       extOfFile = ext;
       int total = 0;
       if(option == JFileChooser.APPROVE_OPTION)
