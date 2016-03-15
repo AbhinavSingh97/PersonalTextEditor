@@ -13,24 +13,62 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.*;
 import java.net.URI;
 import java.util.*;
+
+/**
+ * This class has all of the functions that our text editor can do such as search
+ * replace -- etc.
+ */
 public class Functions
 {
    private static String OS = System.getProperty("os.name").toLowerCase();
    private String extOfFile;
+   
 
+   /**
+    * This methid is your standard copy function that will copy certain 
+    * parts of the textPane.
+    *
+    * @param text This parameter is the textPane which is where the user 
+    * write their code.
+    */
    public void copyArea(JTextPane text)
    {
       text.copy();
    }
+   /**
+    * This is the standard paste method which will paste certain text that
+    * you have already copied onto your textPane.
+    *
+    * @param text This parameter is the textpane which is where the user write 
+    * their code.
+    *
+    */
    public void pasteArea(JTextPane text)
    {
       text.paste();
    }
+   /**
+    * This is the standard cut method which will cut certain text that
+    * you have already in your textPane.
+    *
+    * @param text This parameter is the textpane which is where the user write 
+    * their code.
+    *
+    */
    public void cutArea(JTextPane text)
    {
       text.cut();
    }
-   public int findIndexOfWord(String string)
+   /**
+    * This method is what our open file uses to find the index of the period 
+    * for which to find the extention of the file with.
+    * 
+    * @param string This imput will be the filename we get from when we try to open
+    * a file.
+    *
+    * @return This method will return the index value of the period in the filename.
+    */
+   private int findIndexOfWord(String string)
    {
       char[] myChar = string.toCharArray();
       char[] myChar2 = new char[myChar.length];
@@ -52,6 +90,13 @@ public class Functions
       }
       return -1;
    }
+   /**
+    * This method will open the file you want to see in our JTextPane.
+    *
+    * @param text This parameter is the textpane which is where the user write 
+    * their code.
+    *
+    */
    public void openFile(JTextPane text)
    {
       JFileChooser open = new JFileChooser();
@@ -92,10 +137,22 @@ public class Functions
          }
      
    }
+   /**
+    * This method will return the extension of the file we are opening.
+    * 
+    * @return This method will return the extension of the file. 
+    */
    public String extOftheFile()
    {
       return extOfFile;
    }
+   /**
+    * This method will save the file you are currently using to wherever you please.
+    *
+    * @param text This parameter is the textpane which is where the user write 
+    * their code.
+    *
+    */
    public void saveFile(JTextPane text)
    {
       JFileChooser save = new JFileChooser();
@@ -114,6 +171,13 @@ public class Functions
          }
       }
    }
+   /**
+    * This method will create a newFile that you can edit in the JTextPane.
+    *
+    * @param text This parameter is the textpane which is where the user write 
+    * their code.
+    *
+    */
    public void newFile(JTextPane text)
    {
       JFileChooser newF = new JFileChooser();
@@ -133,6 +197,14 @@ public class Functions
          }
       }  
    }
+   /**
+    * This is the search function that will find the word you are looking for
+    * and will highlight it. 
+    *
+    * @param text This parameter is the textpane which is where the user write 
+    * their code.
+    *
+    */
     public void search(JTextPane text) 
    { 
       String wordToSearch = JOptionPane.showInputDialog(null, "Word to search for:");
@@ -203,6 +275,14 @@ public class Functions
             continue;
       }
    }
+   /**
+    * This is the replace function which will replace the word or charecter you want
+    * with another word or charecter.
+    *
+    * @param text This parameter is the textpane which is where the user write 
+    * their code.
+    *
+    */
    public void replace(JTextPane text)
    {
       String wordToSearch = JOptionPane.showInputDialog(null, "Word to replace:");
@@ -234,6 +314,13 @@ public class Functions
          total += newLine.length() + 1;
       }
    }
+   /**
+    * This method will put your cursor on the line that you specify. 
+    *
+    * @param text This parameter is the textpane which is where the user write 
+    * their code.
+    *
+    */
    public void goToLine(JTextPane text)
    {
        String lineToSearch = JOptionPane.showInputDialog(null, "Line Number: ");
@@ -256,6 +343,17 @@ public class Functions
 
        }
    }
+   /**
+    * This method will find all of the KeywWords, Operators, and types in your
+    * file and color them accordingly. 
+    *
+    *
+    * @param directory This is the extension of the file that you are opening.
+    *
+    * @param text This parameter is the textpane which is where the user write 
+    * their code.
+    *
+    */
     public void findKeyWords(String directory, JTextPane text) throws FileNotFoundException
    {
       final StyleContext cont = StyleContext.getDefaultStyleContext();
@@ -282,6 +380,17 @@ public class Functions
             searchJava(line, jtypes,text);
          }
    }
+   /**
+    * This function will put all of the keywords in your specific textfile into
+    * an ArrayList<String> to be used later. 
+    *
+    * @param text This parameter is the textpane which is where the user write 
+    * their code.
+    *
+    * @return This function will return an ArrayList of all of the words specified
+    * in your textfile for KeyWords.
+    *
+    */
    private ArrayList<String> loadKeyWords(String directory) throws FileNotFoundException
    {
       ArrayList<String> javaWords = new ArrayList<String>();
@@ -295,6 +404,16 @@ public class Functions
       scan.close();
       return javaWords;
    }
+   /**
+    * This function will put all of the Operators in your specific textfile into
+    * an ArrayList<String> to be used later. 
+    *
+    * @param text This parameter is the textpane which is where the user write 
+    * their code.
+    *
+    * @return This function will return an ArrayList of all of the words specified
+    * in your textfile for Operators.
+    */
    private ArrayList<String> loadOperators(String directory) throws FileNotFoundException
    {
       ArrayList<String> javaWords = new ArrayList<String>();
@@ -308,6 +427,16 @@ public class Functions
       scan.close();
       return javaWords;
    }
+   /**
+    * This function will put all of the Types in your specific textfile into
+    * an ArrayList<String> to be used later. 
+    *
+    * @param text This parameter is the textpane which is where the user write 
+    * their code.
+    *
+    * @return This function will return an ArrayList of all of the words specified
+    * in your textfile for Types.
+    */
    private ArrayList<String> loadTypes(String directory) throws FileNotFoundException
    {
       ArrayList<String> javaWords = new ArrayList<String>();
@@ -321,6 +450,17 @@ public class Functions
       scan.close();
       return javaWords;
    }
+   /**
+    * This function will search the file for the words specified and color them.  
+    *
+    * @param text This parameter is the textpane which is where the user write 
+    * their code.
+    *
+    * @param javaAttr This is the attribute that you will add to the words in the textPane.
+    * 
+    * @param wordToSearch This is the word that we will apple the new color too in
+    * findKeyWords.
+    */
     public void searchJava(String wordToSearch, AttributeSet javaAttr, JTextPane text) 
    { 
       

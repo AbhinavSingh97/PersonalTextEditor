@@ -10,6 +10,15 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.*;
 import java.util.*;
 
+/**
+ * This class will create the text editor and open up the window in which you can
+ * open and edit files to your hearts desire.
+ *
+ * @author Abhinav Singh and Dmitriy Timokhin
+ *
+ * @version 1
+ *
+ */
 public class MyTextEditor extends JFrame implements ActionListener
 {
    private JPanel panel = new JPanel(new BorderLayout());
@@ -48,6 +57,11 @@ public class MyTextEditor extends JFrame implements ActionListener
    //Secret Commands 
    private MenuItem delete = new MenuItem();
 
+
+   /**
+    * This constructor will create the JTextPane for you to use to edit and 
+    * write your code, it will create a MyTextEditor Object. 
+    */
    public MyTextEditor()
    {
       this.setSize(750,800);
@@ -173,7 +187,14 @@ public class MyTextEditor extends JFrame implements ActionListener
 
 
    }
-
+   
+   /**
+    * This method will do a sepcific action based on what the user does/clicks.
+    *
+    * @param event This parameter is the users actions which can be either a click
+    * on  a label item or a command using keys.
+    *
+    */
    public void actionPerformed(ActionEvent event)
    {
       if(event.getSource() == this.closeFile)
