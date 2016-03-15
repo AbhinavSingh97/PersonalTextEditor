@@ -200,13 +200,13 @@ public class MyTextEditor extends JFrame implements ActionListener
       else if(event.getSource() == this.replace)
       {
          functionChooser.replace(textArea);
-        /* try{
-         functionChooser.findKeyWords(extOfFile, textArea);
+         try{
+         functionChooser.findKeyWords(functionChooser.extOftheFile(), textArea);
          throw new FileNotFoundException();
          }catch(FileNotFoundException ex)
          {
 
-         }*/
+         }
       }
       else if(event.getSource() == this.goToLine)
       {

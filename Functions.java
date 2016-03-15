@@ -16,6 +16,7 @@ import java.util.*;
 public class Functions
 {
    private static String OS = System.getProperty("os.name").toLowerCase();
+   private String extOfFile;
 
    public void copyArea(JTextPane text)
    {
@@ -58,7 +59,7 @@ public class Functions
       String filename = open.getSelectedFile().getName();
       int indexOfWord = findIndexOfWord(filename);
       String ext = filename.substring(indexOfWord - 1,filename.length());
-      //extOfFile = ext;
+      extOfFile = ext;
       int total = 0;
       if(option == JFileChooser.APPROVE_OPTION)
       {
@@ -90,6 +91,10 @@ public class Functions
 
          }
      
+   }
+   public String extOftheFile()
+   {
+      return extOfFile;
    }
    public void saveFile(JTextPane text)
    {
