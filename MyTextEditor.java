@@ -23,7 +23,6 @@ public class MyTextEditor extends JFrame implements ActionListener
 {
    private JPanel panel = new JPanel(new BorderLayout());
    private JTextPane textArea = new JTextPane();
-   private JTextArea lineText = new JTextArea();
    private Functions functionChooser = new Functions();
    // private TextLineNumber tln = new TextLineNumber(textArea);
    private static final Color TA_BKGRD_CL = Color.BLACK;
@@ -74,7 +73,7 @@ public class MyTextEditor extends JFrame implements ActionListener
       textArea.getCaret().setVisible(true); 
 
 
-      final LineNumberingTextArea lineNTA = new LineNumberingTextArea(lineText);
+      final LineNumberingTextArea lineNTA = new LineNumberingTextArea(textArea);
       DocumentListener documentListen = new DocumentListener()
       {
          public void insertUpdate(DocumentEvent documentEvent)
@@ -94,13 +93,11 @@ public class MyTextEditor extends JFrame implements ActionListener
       //Line numbers
       lineNTA.setBackground(Color.BLACK);
       lineNTA.setForeground(Color.WHITE);
-      lineNTA.setFont(new Font("Consolas", Font.BOLD, 13));
+      lineNTA.setFont(new Font("Consolas", Font.BOLD, 14));
       lineNTA.setEditable(false);
       lineNTA.setVisible(true);
       textArea.add(lineNTA);
       scrollPane = new JScrollPane(textArea);
-      scrollPane.add(lineNTA);
-      
       scrollPane.setVisible(true);
       scrollPane.setRowHeaderView(lineNTA);
 
@@ -150,7 +147,7 @@ public class MyTextEditor extends JFrame implements ActionListener
 
       replace.setLabel("Replace");
       replace.addActionListener(this);
-      replace.setShortcut(new MenuShortcut(KeyEvent.VK_H, false));
+      replace.setShortcut(new MenuShortcut(KeyEvent.VK_R, false));
       find.add(replace);
 
       goToLine.setLabel("Go To");
