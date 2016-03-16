@@ -71,7 +71,7 @@ public class MyTextEditor extends JFrame implements ActionListener
       textArea.setBackground(TA_BKGRD_CL);
       textArea.setCaretColor(TA_CARET_CL);
       textArea.getCaret().setVisible(true); 
-
+      textArea.setDocument(new TabsToSpaces());
 
       final LineNumberingTextArea lineNTA = new LineNumberingTextArea(textArea);
       DocumentListener documentListen = new DocumentListener()
@@ -252,6 +252,22 @@ public class MyTextEditor extends JFrame implements ActionListener
          dispose();
       }
    }
+   
+   static class TabsToSpaces extends DefaultStyledDocument
+      {
+         public void insertString(int offset, String str, AttributeSet att)
+         {
+            try
+            {
+               str = str.replaceAll("\t", "   ");
+               super.insertString(offset,str,att);
+            }
+            catch(BadLocationException ex)
+            {
+
+            }
+         }
+      }
    public static void main(String[] args)
    {
       MyTextEditor textEditor = new MyTextEditor();
