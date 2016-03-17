@@ -486,7 +486,7 @@ public class Functions
       Scanner scan = new Scanner(file);
       while(scan.hasNext())
       {
-         javaWords.add(" " + scan.next());
+         javaWords.add(scan.next());
       }
       scan.close();
       return javaWords;
