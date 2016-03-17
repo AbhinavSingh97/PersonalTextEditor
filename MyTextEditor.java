@@ -79,29 +79,14 @@ public class MyTextEditor extends JFrame implements ActionListener
          public void insertUpdate(DocumentEvent documentEvent)
          {
            lineNTA.updateLineNumbers(); 
-           try
-         {
-         functionChooser.updateTextArea(textArea);
-         }
-         catch(FileNotFoundException ex)
-         {
-
-         }
          }
          public void removeUpdate(DocumentEvent documentEvent)
          {
             lineNTA.updateLineNumbers();
-            try
-         {
-         functionChooser.updateTextArea(textArea);
-         }
-         catch(FileNotFoundException ex)
-         {
-
-         }
          }
          public void changedUpdate(DocumentEvent documentEvent)
          {
+            lineNTA.updateLineNumbers();
          }
       };
       textArea.getDocument().addDocumentListener(documentListen);
@@ -223,8 +208,6 @@ public class MyTextEditor extends JFrame implements ActionListener
       else if(event.getSource() == this.saveFile)
       {
          functionChooser.saveFile(textArea);
-         textArea.setForeground(Color.GREEN);
-
       }
       else if(event.getSource() == this.newFile)
       {
