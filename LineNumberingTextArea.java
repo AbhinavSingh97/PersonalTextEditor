@@ -2,10 +2,20 @@ import javax.swing.*;
 import javax.swing.text.Element;
 import java.awt.*;
 
+/**
+ * This class creates the line numbers in our TextPane.
+ */
 public class LineNumberingTextArea extends JTextArea
 {
     private JTextPane textArea;
 
+
+    /**
+     * This is the contructor that creates the LinNumbering TextArea.
+     *
+     * @param textArea The textArea that we will be modifying to add the 
+     * line numbers to it.
+     */
     public LineNumberingTextArea(JTextPane textArea)
     {
         this.textArea = textArea;
@@ -14,12 +24,22 @@ public class LineNumberingTextArea extends JTextArea
         setEditable(false);
     }
 
+    /**
+     * This method will update the line numbers.
+     */
     public void updateLineNumbers()
     {
         String lineNumbersText = getLineNumbersText();
         setText(lineNumbersText);
     }
 
+
+    /**
+     * This method will set the line numbers to show up on the JTextPane.
+     *
+     * @return This method will return a String which will be added to the 
+     * the lineNumbering area in the JTextPane.
+     */
     private String getLineNumbersText()
     {
         int counter = 0;
