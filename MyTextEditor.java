@@ -37,7 +37,7 @@ public class MyTextEditor extends JFrame implements ActionListener
    private Menu find = new Menu();
    private Menu goTo = new Menu();
    private Menu help = new Menu();
-   private Menu secrets = new Menu();
+   private Menu prefs = new Menu();
    //File 
    private MenuItem openFile = new MenuItem(); 
    private MenuItem saveFile = new MenuItem(); 
@@ -54,7 +54,7 @@ public class MyTextEditor extends JFrame implements ActionListener
    //Help
    private MenuItem documentation = new MenuItem();
    //Secret Commands 
-   private MenuItem delete = new MenuItem();
+   private MenuItem update = new MenuItem();
 
 
    /**
@@ -78,15 +78,30 @@ public class MyTextEditor extends JFrame implements ActionListener
       {
          public void insertUpdate(DocumentEvent documentEvent)
          {
-           lineNTA.updateLineNumbers();  
+           lineNTA.updateLineNumbers(); 
+           try
+         {
+         functionChooser.updateTextArea(textArea);
+         }
+         catch(FileNotFoundException ex)
+         {
+
+         }
          }
          public void removeUpdate(DocumentEvent documentEvent)
          {
             lineNTA.updateLineNumbers();
+            try
+         {
+         functionChooser.updateTextArea(textArea);
+         }
+         catch(FileNotFoundException ex)
+         {
+
+         }
          }
          public void changedUpdate(DocumentEvent documentEvent)
          {
-            lineNTA.updateLineNumbers();
          }
       };
       textArea.getDocument().addDocumentListener(documentListen);
@@ -109,13 +124,14 @@ public class MyTextEditor extends JFrame implements ActionListener
       menuBar.add(this.find);
       menuBar.add(this.goTo);
       menuBar.add(this.help);
-      menuBar.add(secrets);
+      menuBar.add(this.prefs);
 
       file.setLabel("File");
       find.setLabel("Find");
       edit.setLabel("Edit");
       goTo.setLabel("Goto");
       help.setLabel("Help");
+      prefs.setLabel("Preferences");
       //File option to open files in the text editor
       openFile.setLabel("Open");
       openFile.addActionListener(this);
@@ -178,9 +194,10 @@ public class MyTextEditor extends JFrame implements ActionListener
       help.add(documentation);
 
       //Secret Opitions
-      delete.addActionListener(this);
-      delete.setShortcut(new MenuShortcut(KeyEvent.VK_D,false));
-      secrets.add(delete);
+      update.setLabel("Update Syntax");
+      update.addActionListener(this);
+      update.setShortcut(new MenuShortcut(KeyEvent.VK_U,false));
+      prefs.add(update);
 
 
    }
@@ -206,6 +223,8 @@ public class MyTextEditor extends JFrame implements ActionListener
       else if(event.getSource() == this.saveFile)
       {
          functionChooser.saveFile(textArea);
+         textArea.setForeground(Color.GREEN);
+
       }
       else if(event.getSource() == this.newFile)
       {
@@ -246,12 +265,24 @@ public class MyTextEditor extends JFrame implements ActionListener
       {
          functionChooser.loadJavaDocs();
       }
-      else if(event.getSource() == this.delete)
+      else if(event.getSource() == new MenuShortcut(KeyEvent.VK_D,false))
       {
          System.out.println("Lmao, you thought I deleted your line, more like your file");
          dispose();
       }
+      else if(event.getSource() == this.update)
+      {
+         try
+         {
+         functionChooser.updateTextArea(textArea);
+         }
+         catch(FileNotFoundException ex)
+         {
+
+         }
+      }
    }
+
    
    static class TabsToSpaces extends DefaultStyledDocument
       {

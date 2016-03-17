@@ -9,6 +9,9 @@ public class LineNumberingTextArea extends JTextArea
     public LineNumberingTextArea(JTextPane textArea)
     {
         this.textArea = textArea;
+        setBackground(Color.BLACK);
+        textArea.setFont(new Font("Consolas", Font.BOLD, 14));
+        setEditable(false);
     }
 
     public void updateLineNumbers()
@@ -23,8 +26,9 @@ public class LineNumberingTextArea extends JTextArea
         int caretPosition = textArea.getDocument().getLength();
         Element root = textArea.getDocument().getDefaultRootElement();
         StringBuilder lineNumbersTextBuilder = new StringBuilder();
+        lineNumbersTextBuilder.append("1").append(System.lineSeparator());
 
-        for (int elementIndex = 1; elementIndex < root.getElementIndex(caretPosition) +2; 
+        for (int elementIndex = 2; elementIndex < root.getElementIndex(caretPosition) +2; 
             elementIndex++)
         {
             lineNumbersTextBuilder.append(elementIndex).append(System.lineSeparator());

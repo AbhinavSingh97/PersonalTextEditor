@@ -157,6 +157,10 @@ public class Functions
    {
       JFileChooser save = new JFileChooser();
       int option = save.showSaveDialog(text);
+      String filename = save.getSelectedFile().getName();
+      int indexOfWord = findIndexOfWord(filename);
+      String ext = filename.substring(indexOfWord - 1,filename.length());
+      extOfFile = ext;
       if(option == JFileChooser.APPROVE_OPTION)
       {
          try
@@ -170,6 +174,14 @@ public class Functions
             System.out.println(ex.getMessage());
          }
       }
+       try
+         {
+         findKeyWords(ext,text);
+         throw new FileNotFoundException();
+         }catch(FileNotFoundException ex)
+         {
+
+         }
    }
    /**
     * This method will create a newFile that you can edit in the JTextPane.
@@ -380,6 +392,33 @@ public class Functions
             searchJava(line, jtypes,text);
          }
    }
+   public void updateTextArea(JTextPane text) throws FileNotFoundException
+   {
+      final StyleContext cont = StyleContext.getDefaultStyleContext();
+      final AttributeSet jKeyWord = cont.addAttribute(cont.getEmptySet(), 
+         StyleConstants.Foreground,Color.RED);
+      final AttributeSet jOperator = cont.addAttribute(cont.getEmptySet(), 
+         StyleConstants.Foreground,Color.MAGENTA);
+      final AttributeSet jtypes = cont.addAttribute(cont.getEmptySet(), 
+         StyleConstants.Foreground,Color.CYAN);
+
+         ArrayList<String> words = loadKeyWords(extOfFile);
+         for (String line : words)
+         {
+            searchJava(line,jKeyWord,text);
+         }
+         ArrayList<String> operators = loadOperators(extOfFile);
+         for (String line : operators)
+         {
+            searchJava(line, jOperator,text);
+         }
+         ArrayList<String> types1 = loadTypes(extOfFile);
+         for (String line : types1)
+         {
+            searchJava(line, jtypes,text);
+         }
+
+   }
    /**
     * This function will put all of the keywords in your specific textfile into
     * an ArrayList<String> to be used later. 
@@ -466,6 +505,9 @@ public class Functions
       
       final AttributeSet attr = javaAttr;
       Document myText = text.getDocument();
+      final StyleContext cont = StyleContext.getDefaultStyleContext();
+      final AttributeSet reset = cont.addAttribute(cont.getEmptySet(), 
+         StyleConstants.Foreground,Color.GREEN);
 
       int m;
       int t;
@@ -534,6 +576,15 @@ public class Functions
                JOptionPane.showMessageDialog(null, "Eric You Troll" );
                total += line.length() + 1;
             }
+            try
+            {
+             myText.insertString(total,"", reset);
+            }
+            catch(BadLocationException ex)
+            {
+              
+            }
+
       }
    }
     public static boolean isWindows() 
